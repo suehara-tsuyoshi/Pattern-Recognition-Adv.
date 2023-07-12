@@ -11,4 +11,4 @@ Please use the following command to run algorithms.
 
 ## Discussions
 
-What is the appropriate number of classes K ?
+What is the appropriate number of classes K 
