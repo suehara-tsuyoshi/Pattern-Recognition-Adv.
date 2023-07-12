@@ -1,14 +1,14 @@
 ## Instructions
 
-Please use the following command to run algorithms.
+Please use the following command to run algorithms after moving to *ML_est* or *Bayes_est* directory.
 
-#### EM Algorithm
+#### EM Algorithm(ML estimation)
 
-`python ML_est/em_gmm.py x.csv z.csv params.dat`
+`python em_gmm.py x.csv z.csv params.dat`
 
-#### VB Algorithm
+#### VB Algorithm(Bayes estimation)
 
-`python Bayes_est/vb_gmm.py x.csv z.csv params.dat`
+`python vb_gmm.py x.csv z.csv params.dat`
 
 I describe contents of the outputs *z.csv* and *params.dat* here.
 

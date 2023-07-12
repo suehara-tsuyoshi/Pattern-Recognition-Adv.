@@ -10,7 +10,7 @@ np.random.seed(200)
 
 class EM_GMM():
 
-    def __init__(self, x, num_classes=4, max_iter=20, threshold=0.00001):
+    def __init__(self, x, num_classes=4, max_iter=50, threshold=0.00001):
         
         self.num_classes = num_classes
         self.num_samples = x.shape[0]
@@ -73,7 +73,6 @@ class EM_GMM():
     def exec(self, x):
 
         last_ll = self.calc_log_likelihood(x)
-        ll_list = [last_ll]
 
         for i in range(self.max_iter):
 
@@ -102,7 +101,7 @@ class EM_GMM():
 
             if gap_ll/self.num_samples < self.threshold:
                 self.output_result(gamma)
-                self.visualization(x, gamma)
+                # self.visualization(x, gamma)
                 return 
             else:
                 last_ll = now_ll
@@ -125,21 +124,3 @@ with open(input_data) as f:
 
 model = EM_GMM(X, 4)
 model.exec(X)
-
-
-
-# fig = plt.figure(figsize = (6,4), facecolor='lightblue')
-
-# x = np.arange(21)
-
-# for  i in range(2, 10):
-#     model = EM_GMM(X, i)
-#     ll = model.exec(X)
-#     plt.plot(x, ll, label=str(i))
-
-# plt.ylim(-68000,-54000)
-# plt.xlabel("iteration")
-# plt.ylabel("log likelihood")
-
-# plt.legend(loc = 'lower right') 
-# plt.show()

@@ -6,6 +6,8 @@ import csv
 import os
 from scipy.special import digamma, logsumexp
 
+np.random.seed(200)
+
 class VB_GMM():
 
     def __init__(self, x, num_classes=5, max_iter=100, threshold=0.00001):
