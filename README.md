@@ -27,9 +27,14 @@ Here, I describe the final value of each parameter, paired with its parameter na
 What is the appropriate number of classes K ?
 I ran the EM algorithm with different values of this parameter.
 
-As the figure ![Result(1)](img/optimal_K.png) shows, the log-likelihood is maximized to　almost the same value when I set the number of classes to equal to or more than 4.
+![Result of different K's EM algorithm](img/optimal_K.png)
+
+As the above figure shows, the log-likelihood is maximized to　almost the same value when I set the number of classes to equal to or more than 4.
 Therefore, K=4 is the optimal value for this dataset.
-In fact, it can be reasonable from the figure ![Result(2)](img/data_clustering.png) for clustering using EM algorithm with K=4.
+
+![Result of clustering with K=4](img/data_clustering.png)
+
+In fact, it can be reasonable from the figure for clustering using EM algorithm with K=4.
 
 
 
