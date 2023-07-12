@@ -4,10 +4,13 @@ import matplotlib.pyplot as plt
 import sys
 import csv
 import os
+from mpl_toolkits.mplot3d import Axes3D
+
+np.random.seed(200)
 
 class EM_GMM():
 
-    def __init__(self, x, num_classes=4, max_iter=50, threshold=0.00001):
+    def __init__(self, x, num_classes=4, max_iter=20, threshold=0.00001):
         
         self.num_classes = num_classes
         self.num_samples = x.shape[0]
@@ -54,17 +57,30 @@ class EM_GMM():
             f.writelines(str(self.pi) + "\n")
     
         return
+    
+    def visualization(self, x, gamma):
+
+        index = np.argmax(gamma, 0)
+
+        cm = plt.get_cmap("tab10")
+        fig = plt.figure()
+        ax = Axes3D(fig)
+        for n in range(self.num_samples):
+            ax.plot([x[n][0]], [x[n][1]], [x[n][2]],  "o", color=cm(index[n]), ms=1.5)
+        ax.view_init(elev=30, azim=45)
+        plt.show()
 
     def exec(self, x):
 
         last_ll = self.calc_log_likelihood(x)
+        ll_list = [last_ll]
 
         for i in range(self.max_iter):
 
             mix_gaussian = self.calc_mix_gaussian(x)
             gamma = mix_gaussian/mix_gaussian.sum(axis=0)
             self.pi = gamma.sum(axis=1)[:,None]/gamma.sum()
-            self.mu = (gamma @ X) / gamma.sum(axis=1)[:,None]
+            self.mu = (gamma @ x) / gamma.sum(axis=1)[:,None]
 
             sigma_list = []
 
@@ -79,13 +95,14 @@ class EM_GMM():
 
             now_ll = self.calc_log_likelihood(x)
             gap_ll = np.abs(now_ll - last_ll) 
-    
+ 
             print("Iteration: " + str(i+1))
             print("Log Likelihood: " + str(now_ll))
             print("Gap: " + str(gap_ll))
 
             if gap_ll/self.num_samples < self.threshold:
                 self.output_result(gamma)
+                self.visualization(x, gamma)
                 return 
             else:
                 last_ll = now_ll
@@ -94,7 +111,7 @@ class EM_GMM():
         gamma = mix_gaussian/mix_gaussian.sum(axis=0)
         self.output_result(gamma)
 
-        return
+        return 
             
     
 input_data = sys.argv[1]
@@ -109,8 +126,20 @@ with open(input_data) as f:
 model = EM_GMM(X, 4)
 model.exec(X)
 
+
+
+# fig = plt.figure(figsize = (6,4), facecolor='lightblue')
+
+# x = np.arange(21)
+
 # for  i in range(2, 10):
 #     model = EM_GMM(X, i)
 #     ll = model.exec(X)
-#     print("Number of classes: " + str(i))
-#     print("Log Likelihood: " + str(ll))
+#     plt.plot(x, ll, label=str(i))
+
+# plt.ylim(-68000,-54000)
+# plt.xlabel("iteration")
+# plt.ylabel("log likelihood")
+
+# plt.legend(loc = 'lower right') 
+# plt.show()
